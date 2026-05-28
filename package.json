@@ -6,15 +6,19 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "test:bdd": "turbo run test:bdd",
+    "cucumber": "cucumber-js --config specs/cucumber.config.js",
+    "test:bdd": "start-server-and-test \"pnpm --filter @autarq/web start:standalone\" http://localhost:3000 \"pnpm run cucumber\"",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.0.0",
-    "@cucumber/html-formatter": "^21.0.0",
+    "@cucumber/html-formatter": "^23.1.0",
+    "@types/node": "22",
     "cucumber-tsflow": "^4.6.1",
     "prettier": "^3.3.3",
+    "start-server-and-test": "3.0.5",
+    "ts-node": "10.9.2",
     "turbo": "^2.3.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"

@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   ci:
-    name: Lint → Typecheck → Test → BDD → Build
+    name: Lint → Typecheck → Test → Build → BDD
     runs-on: ubuntu-latest
 
     services:
@@ -68,15 +68,14 @@ jobs:
           DATABASE_URL: postgresql://autarq:autarq_test@localhost:5432/autarq_hub_test
           REDIS_URL: redis://localhost:6379
 
+      - name: Build
+        run: pnpm build
+
       - name: BDD scenarios (Cucumber)
-        run: pnpm test:bdd
+        run: mkdir -p reports && pnpm test:bdd
         env:
           DATABASE_URL: postgresql://autarq:autarq_test@localhost:5432/autarq_hub_test
           REDIS_URL: redis://localhost:6379
-          APP_BASE_URL: http://localhost:3000
-
-      - name: Build
-        run: pnpm build
 
       - name: Upload Living Docs
         if: github.ref == 'refs/heads/main'

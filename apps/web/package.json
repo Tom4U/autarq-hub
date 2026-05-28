@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "start:standalone": "cross-env HOSTNAME=0.0.0.0 node .next/standalone/apps/web/server.js",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -16,9 +17,15 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "3.3.5",
+    "@next/eslint-plugin-next": "16.2.6",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@typescript-eslint/parser": "8",
+    "cross-env": "10.1.0",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"
   }

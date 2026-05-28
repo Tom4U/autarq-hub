@@ -20,6 +20,12 @@ out
 coverage
 reports
 
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Next.js generated types
+next-env.d.ts
+
 # OS
 .DS_Store
 Thumbs.db
