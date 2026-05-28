@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Lint → Typecheck → Test → BDD → Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: autarq
+          POSTGRES_PASSWORD: autarq_test
+          POSTGRES_DB: autarq_hub_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests (Vitest)
+        run: pnpm test
+        env:
+          DATABASE_URL: postgresql://autarq:autarq_test@localhost:5432/autarq_hub_test
+          REDIS_URL: redis://localhost:6379
+
+      - name: BDD scenarios (Cucumber)
+        run: pnpm test:bdd
+        env:
+          DATABASE_URL: postgresql://autarq:autarq_test@localhost:5432/autarq_hub_test
+          REDIS_URL: redis://localhost:6379
+          APP_BASE_URL: http://localhost:3000
+
+      - name: Build
+        run: pnpm build
+
+      - name: Upload Living Docs
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-living-docs
+          path: reports/cucumber-report.html

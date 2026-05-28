@@ -1,0 +1,17 @@
+{
+  "name": "@autarq/connectors",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/interface/index.ts",
+  "exports": {
+    ".": "./src/interface/index.ts",
+    "./interface": "./src/interface/index.ts"
+  },
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
