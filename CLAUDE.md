@@ -76,3 +76,7 @@ A phase is only complete when:
 
 Goal: CI/CD pipeline green, first Cucumber scenario green.
 See: `specs/features/system/app-health.feature`
+
+Living Docs deploy: `.github/workflows/pages.yml` publishes `cucumber-report.html`
+as `index.html` to GitHub Pages (`https://tom4u.github.io/autarq-hub/`) after every
+successful CI run on `main`.
