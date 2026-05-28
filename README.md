@@ -61,8 +61,8 @@ See [CLAUDE.md](./CLAUDE.md) for full workflow and architecture rules.
 
 | Phase | Focus | Status |
 |---|---|---|
-| 0a | Infrastructure, CI/CD, first green scenario | 🔄 In Progress |
-| 0b | Auth, security foundations, audit log | ⏳ Planned |
+| 0a | Infrastructure, CI/CD, first green scenario | ✅ Done |
+| 0b | Auth, security foundations, audit log | 🔄 In Progress |
 | 1 | Email, Calendar, Contacts | ⏳ Planned |
 | 2 | Finance & Invoicing | ⏳ Planned |
 | 3 | CRM, Tasks, Projects | ⏳ Planned |
