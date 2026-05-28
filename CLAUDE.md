@@ -72,7 +72,7 @@ A phase is only complete when:
 2. Living Docs (HTML report) are published to GitHub Pages
 3. No scenario in the backlog is red for this scope
 
-## Current Phase: 0a
+## Completed: Phase 0a ✅
 
 Goal: CI/CD pipeline green, first Cucumber scenario green.
 See: `specs/features/system/app-health.feature`
@@ -80,3 +80,22 @@ See: `specs/features/system/app-health.feature`
 Living Docs deploy: `.github/workflows/pages.yml` publishes `cucumber-report.html`
 as `index.html` to GitHub Pages (`https://tom4u.github.io/autarq-hub/`) after every
 successful CI run on `main`.
+
+## Current Phase: 0b
+
+Goal: Auth, security foundations, audit log.
+
+Scope:
+
+- `better-auth` integration with Argon2id password hashing
+- Role model: `owner` / `accountant` on every tRPC procedure
+- Audit log: append-only, tombstone on account deletion, IP retention job (NULL after 90 days)
+- Connector credential encryption: AES-256-GCM, `AUTARQ_ENCRYPTION_KEY`, `key_version` field
+- DB schema: users, sessions, audit_log, connector_configs (Drizzle + PostgreSQL)
+
+Feature files to create under `specs/features/auth/` before any implementation:
+
+- `registration.feature` — user registration with Argon2id
+- `login.feature` — session creation, role assignment
+- `audit-log.feature` — append-only entries, tombstone on deletion
+- `credential-encryption.feature` — AES-256-GCM round-trip for connector configs
