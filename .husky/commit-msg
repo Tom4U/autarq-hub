@@ -1,0 +1,2 @@
+npx --no -- commitlint --edit "$1"
+node packages/tooling/src/check-test-coupling.mjs "$1"
