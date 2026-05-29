@@ -35,5 +35,8 @@ Thumbs.db
 *.swp
 *.swo
 
+# Claude Code — local permission overrides (never commit)
+.claude/settings.local.json
+
 # Docker
 docker/data

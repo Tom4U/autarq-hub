@@ -7,8 +7,10 @@ If none exists, write the `.feature` scenario first. Only implement what is need
 
 ## Architecture
 
-- **Connector-First**: all external data comes through `packages/connectors/`. Never query external APIs directly from `packages/core/` or `apps/web/`.
-- **DB footprint is minimal**: only metadata, references, and native items. No email content, no calendar event bodies, no file content.
+- **Connector-First**: all external data comes through `packages/connectors/`.
+  Never query external APIs directly from `packages/core/` or `apps/web/`.
+- **DB footprint is minimal**: only metadata, references, and native items.
+  No email content, no calendar event bodies, no file content.
 - **IConnector interfaces** are the contract — business logic depends on the interface, never a concrete implementation.
 - **MockConnectors** are used in all tests — never make real network calls in tests.
 
@@ -41,3 +43,31 @@ If none exists, write the `.feature` scenario first. Only implement what is need
 - `pnpm` only — never `npm install`
 - `turbo run <task>` to run tasks across packages
 - Import from packages using workspace aliases: `@autarq/db`, `@autarq/core`, `@autarq/connectors`, `@autarq/ui`
+
+## Response style — Minimal (Default)
+
+Goal: maximum information density, minimal token usage.
+
+Rules:
+
+- no preamble, closing, pleasantries, repetition, filler words
+- content only
+- bullet points + short terms preferred
+
+Structure: lists / key-value, max 8–12 points, clear organization.
+
+Context: primary current request; prior conversation only if critical.
+
+Limits: ≤ 120 tokens — actively compress if exceeded.
+
+Fallback: when uncertain → terse; no speculation.
+
+Output style: technical · precise · compact.
+
+Overrides (current request only, then back to Minimal):
+
+- `MIN`    → keywords only, no sentences, max 80 tokens
+- `MEDIUM` → compact + brief explanation
+- `DETAIL` → detailed, examples, no token limit
+
+Priority: brevity > style · information density > readability.

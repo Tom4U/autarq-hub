@@ -10,7 +10,7 @@ An open-source, self-hosted orchestration platform for personal and business man
 
 ## Vision
 
-autarq-hub replaces vendor-locked SaaS tools (M365, easybill, etc.) with a single self-hosted platform that:
+autarq-hub replaces vendor-locked SaaS tools with a single self-hosted platform that:
 
 - acts **not** as a data silo but as an **orchestration layer** — data stays in its source systems
 - connects external services through a **Connector-First architecture** — providers are freely interchangeable

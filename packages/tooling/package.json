@@ -1,19 +1,14 @@
 {
-  "name": "@autarq/core",
+  "name": "@autarq/tooling",
   "version": "0.1.0",
   "private": true,
-  "exports": {
-    ".": "./src/index.ts"
-  },
   "scripts": {
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
-  "dependencies": {
-    "@autarq/connectors": "workspace:*"
-  },
   "devDependencies": {
+    "@types/node": "^22.0.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.7"
   }
