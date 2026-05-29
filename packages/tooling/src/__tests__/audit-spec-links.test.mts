@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { auditSpecLinks, type AuditResult } from '../audit-spec-links.mjs'
+import { auditSpecLinks } from '../audit-spec-links.mjs'
 
 // autarq-hub uses Cucumber .feature files, not markdown specs.
 // AC format in .feature tags: @AC-<prefix>-<NN> (e.g. @AC-login-01)

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // CI gate: feat/fix commits that touch source files must have a matching spec
 // change somewhere in the same branch (since it diverged from the base branch).
 //
@@ -7,8 +6,7 @@
 /** @typedef {{ ok: boolean; reason: string }} SpecCouplingResult */
 
 const SOURCE_PATTERN = /^(apps|packages)\/[^/]+\/src\/.+\.(ts|tsx)$/
-const TEST_PATTERN = /\.(test|spec)\.(ts|tsx|js|mjs)$|\/(tests?|spec)\//
-const SPEC_PATTERN = /^specs\//
+const TEST_PATTERN = /\.(test|spec)\.(ts|tsx|mts|js|mjs)$|\/(tests?|spec)\//
 const FEAT_FIX_PATTERN = /^(feat|fix)(\([^)]+\))?!?:/
 
 /**
@@ -39,11 +37,7 @@ export function checkSpecCoupling({ changedFiles, commits, hasSpecChange }) {
 }
 
 // CLI entry point — only runs when executed directly.
-if (process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].replace(/\\/g, '/'))) {
-  runCli()
-}
-
-async function runCli() {
+if (process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].replaceAll('\\', '/'))) {
   const { execFileSync } = await import('node:child_process')
 
   const exempt = process.env['SPEC_COUPLING_EXEMPT'] === '1'
@@ -95,7 +89,7 @@ async function runCli() {
     process.exit(0)
   }
 
-  const hasSpecChange = changedFiles.some((f) => SPEC_PATTERN.test(f))
+  const hasSpecChange = changedFiles.some((f) => f.startsWith('specs/'))
   const result = checkSpecCoupling({ changedFiles, commits, hasSpecChange })
 
   if (!result.ok) {

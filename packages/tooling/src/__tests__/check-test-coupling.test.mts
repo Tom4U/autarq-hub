@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { checkTestCoupling, type CouplingResult } from '../check-test-coupling.mjs'
+import { checkTestCoupling } from '../check-test-coupling.mjs'
 
 describe('check-test-coupling', () => {
   it('allows chore commits without tests', () => {
@@ -52,6 +52,24 @@ describe('check-test-coupling', () => {
       'packages/core/src/tests/auth.ts',
     ])
     expect(result.ok).toBe(true)
+  })
+
+  it('passes feat commit that includes a .test.mts file', () => {
+    const result = checkTestCoupling('feat: add user auth', [
+      'packages/core/src/auth.ts',
+      'packages/core/src/auth.test.mts',
+    ])
+    expect(result.ok).toBe(true)
+  })
+
+  it('counts .test.mts as a test file for immutability gate', () => {
+    const result = checkTestCoupling(
+      'feat: update auth\n\nSome body.',
+      ['packages/core/src/auth.test.mts'],
+      { modifiedTestLines: 1 },
+    )
+    expect(result.ok).toBe(false)
+    expect(result.reason).toContain('Test-immutability gate')
   })
 
   it('ignores files outside apps/packages source pattern for gate 1', () => {

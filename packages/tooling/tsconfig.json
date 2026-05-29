@@ -12,5 +12,5 @@
     "noEmit": true,
     "allowJs": true
   },
-  "include": ["src/**/*.ts", "src/**/*.mjs"]
+  "include": ["src/**/*.mts", "src/**/*.mjs"]
 }

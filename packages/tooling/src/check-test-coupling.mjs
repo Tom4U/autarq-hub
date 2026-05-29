@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // SDD/TDD-Gate: feat/fix commits that touch source files must also stage tests.
 // Additionally: if existing test lines are modified (not just added), the commit
 // message must carry a "Test-Change-Reason: <text>" trailer explaining why.
@@ -10,7 +9,7 @@ const EXEMPT_TYPES = new Set([
 ])
 
 const SOURCE_PATTERN = /^(apps|packages)\/[^/]+\/src\/.+\.(ts|tsx)$/
-const TEST_PATTERN = /\.(test|spec)\.(ts|tsx|js|mjs)$|\/(tests?|spec)\//
+const TEST_PATTERN = /\.(test|spec)\.(ts|tsx|mts|js|mjs)$|\/(tests?|spec)\//
 
 /**
  * @param {string} message - commit message
@@ -59,11 +58,7 @@ export function checkTestCoupling(message, stagedFiles, opts = {}) {
 }
 
 // CLI entry point — only runs when executed directly.
-if (process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].replace(/\\/g, '/'))) {
-  runCli()
-}
-
-async function runCli() {
+if (process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].replaceAll('\\', '/'))) {
   const { execFileSync } = await import('node:child_process')
   const { readFileSync } = await import('node:fs')
 

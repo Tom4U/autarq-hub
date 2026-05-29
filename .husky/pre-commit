@@ -4,4 +4,4 @@ if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
   exit 1
 fi
 
-npx lint-staged
+node_modules/.bin/lint-staged

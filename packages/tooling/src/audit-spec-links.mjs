@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // Spec ↔ Test linkage audit for autarq-hub (Cucumber BDD).
 //
 // AC format in .feature files:  @AC-<prefix>-<NN>  (Cucumber scenario tags)
@@ -12,7 +11,7 @@
 
 /** @typedef {{ ok: boolean; orphanedAcs: string[]; staleAllowlistEntries: string[]; orphanedTestRefs: string[] }} AuditResult */
 
-const AC_PATTERN = /\bAC-([a-zA-Z0-9]+-\d+)\b/g
+const AC_PATTERN = /(AC-[a-zA-Z0-9]+-\d+)\b/g
 
 /**
  * @param {{ featureAcs: Map<string, Set<string>>; testRefs: Map<string, Set<string>>; allowlist: Set<string> }} opts
@@ -45,11 +44,7 @@ export function auditSpecLinks({ featureAcs, testRefs, allowlist }) {
 }
 
 // CLI entry point — only runs when executed directly.
-if (process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].replace(/\\/g, '/'))) {
-  runCli()
-}
-
-async function runCli() {
+if (process.argv[1] && new URL(import.meta.url).pathname.endsWith(process.argv[1].replaceAll('\\', '/'))) {
   const { existsSync, readdirSync, readFileSync, statSync } = await import('node:fs')
   const { join } = await import('node:path')
 
@@ -63,7 +58,7 @@ async function runCli() {
     let entries
     try { entries = readdirSync(dir) } catch { return out }
     for (const entry of entries) {
-      if (entry === 'node_modules' || entry.startsWith('.')) continue
+      if (entry.startsWith('.') || entry === 'node_modules') continue
       const full = join(dir, entry)
       if (statSync(full).isDirectory()) out.push(...walkDir(full, predicate))
       else if (predicate(full)) out.push(full)
@@ -84,7 +79,7 @@ async function runCli() {
   // Collect AC references from step-definition test files.
   const testRefs = new Map()
   for (const dir of STEP_DIRS) {
-    const files = walkDir(dir, (f) => /\.(ts|js|mjs)$/.test(f))
+    const files = walkDir(dir, (f) => /\.(ts|mts|js|mjs)$/.test(f))
     for (const file of files) {
       const content = readFileSync(file, 'utf8')
       for (const m of content.matchAll(AC_PATTERN)) {

@@ -48,6 +48,15 @@ describe('check-spec-coupling', () => {
     expect(result.ok).toBe(true)
   })
 
+  it('passes when source changed is only .test.mts files (no spec required)', () => {
+    const result = checkSpecCoupling({
+      changedFiles: ['packages/core/src/auth.test.mts'],
+      commits: ['feat: add tests'],
+      hasSpecChange: false,
+    })
+    expect(result.ok).toBe(true)
+  })
+
   it('blocks when mix of feat commits and non-test source without spec', () => {
     const result = checkSpecCoupling({
       changedFiles: [
