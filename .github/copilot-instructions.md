@@ -7,8 +7,10 @@ If none exists, write the `.feature` scenario first. Only implement what is need
 
 ## Architecture
 
-- **Connector-First**: all external data comes through `packages/connectors/`. Never query external APIs directly from `packages/core/` or `apps/web/`.
-- **DB footprint is minimal**: only metadata, references, and native items. No email content, no calendar event bodies, no file content.
+- **Connector-First**: all external data comes through `packages/connectors/`.
+  Never query external APIs directly from `packages/core/` or `apps/web/`.
+- **DB footprint is minimal**: only metadata, references, and native items.
+  No email content, no calendar event bodies, no file content.
 - **IConnector interfaces** are the contract — business logic depends on the interface, never a concrete implementation.
 - **MockConnectors** are used in all tests — never make real network calls in tests.
 

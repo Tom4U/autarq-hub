@@ -1,6 +1,6 @@
 # ADR: Tech Stack & Deliberate Out-of-Scope Decisions
 
-> Local reference only — not tracked in git (see .gitignore: `docs/adr/*.local.md`).
+> Tracked in git. Kept in `docs/adr/` as a living decision record.
 
 ## Decision Principle
 
