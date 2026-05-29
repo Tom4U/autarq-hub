@@ -1,6 +1,6 @@
-import { defineConfig } from '@cucumber/cucumber'
+import type { IConfiguration } from '@cucumber/cucumber'
 
-export default defineConfig({
+const config: Partial<IConfiguration> = {
   paths: ['specs/features/**/*.feature'],
   require: ['specs/step-definitions/**/*.ts'],
   requireModule: ['ts-node/register'],
@@ -10,5 +10,6 @@ export default defineConfig({
     'json:reports/cucumber-report.json',
   ],
   formatOptions: { snippetInterface: 'async-await' },
-  publishQuiet: true,
-})
+}
+
+export default config
