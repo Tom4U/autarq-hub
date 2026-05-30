@@ -13,6 +13,7 @@ permissions:
   pull-requests: write
   issues: write
   contents: read
+  actions: read
 
 jobs:
   auto-ready:
@@ -38,12 +39,14 @@ jobs:
             let prNumber = linkedPrs.length > 0 ? linkedPrs[0].number : null;
 
             if (!prNumber) {
-              // Fallback: query open PRs for this branch (cross-fork or edge case).
+              // Fallback: query open PRs for this branch. Use the head repository owner
+              // from the payload so fork PRs are found correctly.
+              const headOwner = run.head_repository?.owner?.login ?? context.repo.owner;
               const { data: prs } = await github.rest.pulls.list({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 state: 'open',
-                head: `${context.repo.owner}:${run.head_branch}`,
+                head: `${headOwner}:${run.head_branch}`,
               });
               if (prs.length === 0) {
                 core.info('No open PR found for branch ' + run.head_branch);
