@@ -1,0 +1,8 @@
+{
+  ".": "0.0.0",
+  "apps/web": "0.1.0",
+  "packages/core": "0.1.0",
+  "packages/db": "0.1.0",
+  "packages/connectors": "0.1.0",
+  "packages/ui": "0.1.0"
+}
