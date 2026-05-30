@@ -3,8 +3,7 @@
     "strict": true,
     "contexts": [
       "Lint → Typecheck → Test → Build → BDD",
-      "Spec ↔ Test Audit",
-      "Auto-ready on green CI"
+      "Spec ↔ Test Audit"
     ]
   },
   "enforce_admins": false,
