@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { existsSync } from 'fs';
+import { existsSync } from 'node:fs';
 
 const raw = process.env.CLAUDE_TOOL_RESULT_FILE_PATH ?? '';
-const f = raw.replace(/\\/g, '/');
+const f = raw.replaceAll('\\', '/');
 
 if (f.endsWith('.ts') && !f.endsWith('.test.ts') && !f.endsWith('.d.ts')) {
   const t = f.replace(/\.ts$/, '.test.ts');
@@ -12,12 +12,16 @@ if (f.endsWith('.ts') && !f.endsWith('.test.ts') && !f.endsWith('.d.ts')) {
 }
 
 if (f.endsWith('.feature')) {
-  const steps = f
-    .replace(/specs[/\\]features/, 'specs/step-definitions')
-    .replace(/\.feature$/, '.steps.ts');
-  if (!existsSync(steps)) {
-    process.stdout.write(
-      `NOTE: No step-definitions found for ${f} — please create ${steps} (BDD Red-Green).\n`,
-    );
+  // Repo layout: specs/features/<domain>/<name>.feature
+  //           → specs/step-definitions/<domain>.steps.ts
+  const domainMatch = f.match(/specs\/features\/([^/]+)\//);
+  if (domainMatch) {
+    const domain = domainMatch[1];
+    const steps = f.replace(/specs\/features\/[^/]+\/.*\.feature$/, `specs/step-definitions/${domain}.steps.ts`);
+    if (!existsSync(steps)) {
+      process.stdout.write(
+        `NOTE: No step-definitions found for ${f} — please create ${steps} (BDD Red-Green).\n`,
+      );
+    }
   }
 }

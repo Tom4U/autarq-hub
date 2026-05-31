@@ -48,9 +48,11 @@ If none exists, write the `.feature` scenario first. Only implement what is need
 
 1. **Spec exists?** — Is there a `.feature` scenario in `specs/features/` for this behaviour? If not, write it first.
 2. **Role guard?** — Does every tRPC procedure check `ctx.session.user.role`? Unauthorized → HTTP 403 + audit log entry.
-3. **Interface, not concrete?** — Does business logic depend on `IConnector` interface, not a concrete class?
+3. **Interface, not concrete?** — Does business logic depend on a connector interface from
+   `packages/connectors/src/interface/`, not a concrete class?
 4. **Mock in test?** — Does the test use `MockXConnector`, not a real network call?
-5. **Credential encrypted?** — Does any connector config write use `encryptCredential()` with `key_version`?
+5. **Credential encrypted?** — Does any connector config write encrypt credentials
+   (AES-256-GCM) and persist a `key_version` field?
 6. **Audit log written?** — Is this a security-relevant action?
    (login, logout, connector add/remove, invoice send, role change, account delete, GDPR export)
    → must write to `audit_log`.
@@ -74,13 +76,13 @@ If none exists, write the `.feature` scenario first. Only implement what is need
 
 | Failure mode | Symptom | Fix |
 | --- | --- | --- |
-| Missing role check | 403 not thrown for `accountant` on write endpoint | Add `requireRole('owner')` guard in tRPC middleware |
-| Plain-text credential in DB | `connector_configs` row has readable secret | Wrap with `encryptCredential()`; add `key_version` field |
+| Missing role check | 403 not thrown for `accountant` on write endpoint | Add owner-only role-guard middleware to the tRPC procedure |
+| Plain-text credential in DB | `connector_configs` row has readable secret | Encrypt with AES-256-GCM; persist `key_version` field |
 | Real network call in test | Flaky tests; BDD scenarios depend on external service | Replace concrete connector with `Mock<Domain>Connector` |
 | Feature without `.feature` | Implementation merged without BDD scenario | Write scenario first, observe RED, then implement |
 | Hard-coded UI string | Untranslatable text in component template | Move to `en.json` + `de.json`; use `$t('key')` |
 | Missing `key_version` field | Rotation job cannot re-encrypt old records | Add `key_version: integer('key_version').notNull()` to Drizzle schema |
-| Audit log gap | Security event not traceable | Add `auditLog.write(event)` call in the relevant service method |
+| Audit log gap | Security event not traceable | Write an audit_log entry via the audit log service in the relevant service method |
 | Conflict not marked | Source override silently overwrites local change | Set `conflict: true` on record; emit non-blocking UI notification |
 | IP not nulled after 90d | GDPR retention violation | Ensure BullMQ retention job covers `audit_log.ip_address` |
 

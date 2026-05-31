@@ -3,7 +3,6 @@ description: >-
   Project-wide Copilot Agent for autarq-hub.
   Uses CLAUDE.md as the authoritative rule base for all coding, architecture, and project standards.
 tools:
-  - vscode/openSimpleBrowser
   - vscode/runCommand
   - execute
   - read
@@ -54,12 +53,13 @@ the `.feature` requirement. Mark these commits as `chore(meta): … — no behav
 
 - **Connector-First**: all external data flows through `packages/connectors/`.
   Never call external APIs directly from `packages/core/` or `apps/web/`.
-- **IConnector interfaces** are the contract — business logic depends on the interface, never a concrete class.
+- **Connector interfaces** in `packages/connectors/src/interface/` are the contract —
+  business logic depends on the interface, never a concrete class.
 - **MockConnectors** in all BDD/unit tests — zero real network calls in tests.
 - **DB footprint minimal**: only metadata, references, and native items.
   No email content, calendar bodies, file content, or banking transaction details.
-- **tRPC procedures** in `apps/web/src/server/routers/` — role check (`owner` / `accountant`) on every
-  procedure, rejecting unauthorized calls with HTTP 403 and writing to the audit log.
+- **tRPC procedures** — role check (`owner` / `accountant`) on every procedure;
+  unauthorized calls rejected with HTTP 403 and written to the audit log.
 
 ## Security — non-negotiable
 
@@ -91,13 +91,13 @@ the `.feature` requirement. Mark these commits as `chore(meta): … — no behav
 
 | Failure mode | What to check |
 | --- | --- |
-| Missing role check | Every tRPC procedure has `ctx.session.user.role` guard |
-| Plain-text credential | Connector config uses `encryptCredential()` before DB write |
+| Missing role check | Every tRPC procedure checks the caller's role; add an owner-only role-guard middleware |
+| Plain-text credential | Connector config encrypts credentials (AES-256-GCM + `key_version`) before DB write |
 | Real network call in test | Test imports concrete connector, not `MockConnector` |
 | Feature without spec | `specs/features/` has a `.feature` for the behaviour before any implementation exists |
 | Hard-coded UI string | All display text uses locale keys — check `en` + `de` keys both present |
 | Missing `key_version` | Every encrypted record has `key_version: number` field in Drizzle schema |
-| Audit log gap | Security-relevant action (login, connector add/remove, role change, invoice send) writes to `audit_log` |
+| Audit log gap | Security-relevant action (login, connector add/remove, role change, invoice send) writes to `audit_log` via the audit log service |
 
 ## Behaviour
 
