@@ -6,5 +6,10 @@ export default defineConfig({
   },
   test: {
     include: ['src/**/*.test.mts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['lcov'],
+      reportsDirectory: '../../coverage/tooling',
+    },
   },
 })
