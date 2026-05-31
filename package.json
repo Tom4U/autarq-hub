@@ -13,7 +13,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "apps/web/**/*.{ts,tsx}": "eslint --max-warnings 0 --no-warn-ignored",
+    "apps/web/**/*.{ts,tsx}": "eslint --flag v10_config_lookup_from_file --max-warnings 0 --no-warn-ignored",
     "*.md": "markdownlint-cli2"
   },
   "devDependencies": {
@@ -22,6 +22,7 @@
     "@cucumber/cucumber": "^12.0.0",
     "@cucumber/html-formatter": "^23.1.0",
     "@types/node": "^25.9.1",
+    "@vitest/coverage-v8": "^4.1.7",
     "cucumber-tsflow": "^4.6.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.6",
