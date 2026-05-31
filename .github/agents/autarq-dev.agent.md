@@ -11,7 +11,6 @@ tools:
   - agent
   - edit
   - search
-  - web
   - sonarsource.sonarlint-vscode/sonarqube_getPotentialSecurityIssues
   - sonarsource.sonarlint-vscode/sonarqube_excludeFiles
   - sonarsource.sonarlint-vscode/sonarqube_analyzeFile
