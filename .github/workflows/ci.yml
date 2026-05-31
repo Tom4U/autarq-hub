@@ -63,7 +63,7 @@ jobs:
         run: pnpm typecheck
 
       - name: Unit tests (Vitest)
-        run: pnpm test -- --coverage
+        run: pnpm turbo run test -- --coverage
         env:
           DATABASE_URL: postgresql://autarq:autarq_test@localhost:5432/autarq_hub_test
           REDIS_URL: redis://localhost:6379
