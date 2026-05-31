@@ -211,6 +211,20 @@ Note: registration scenarios live in `login.feature` (same auth domain).
 Note: credential encryption scenarios live in `key-lifecycle.feature`.
 Step definitions for auth features are pending — to be added in `specs/step-definitions/auth.steps.ts`.
 
+## UI Internationalisation (i18n)
+
+The frontend **must** be multilingual. This is a cross-cutting concern, not a phase deliverable.
+
+| Aspect | Rule |
+| --- | --- |
+| Default locale | `en` (English) |
+| Additional locale | `de` (German) |
+| Locale detection | Browser preference → user profile setting → fallback `en` |
+| String source | All UI strings in locale files — no hard-coded display text in components |
+| Scope | All user-facing surfaces: web app, error messages, email notifications |
+
+Every feature that introduces user-facing text must ship locale keys for both `en` and `de` in the same PR.
+
 ## Roadmap (summary)
 
 | Phase | Goal | Issue |
