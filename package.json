@@ -19,20 +19,20 @@
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
-    "@cucumber/cucumber": "^12.0.0",
+    "@cucumber/cucumber": "^13.0.0",
     "@cucumber/html-formatter": "^23.1.0",
-    "@types/node": "^25.9.1",
-    "@vitest/coverage-v8": "^4.1.7",
+    "@types/node": "^25.9.2",
+    "@vitest/coverage-v8": "^4.1.8",
     "cucumber-tsflow": "^4.6.1",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.6",
+    "lint-staged": "^17.0.7",
     "markdownlint-cli2": "^0.22.1",
     "prettier": "^3.8.3",
-    "start-server-and-test": "3.0.5",
+    "start-server-and-test": "3.0.8",
     "ts-node": "10.9.2",
     "turbo": "^2.9.16",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.7"
+    "vitest": "^4.1.8"
   },
   "packageManager": "pnpm@9.12.0",
   "engines": {
