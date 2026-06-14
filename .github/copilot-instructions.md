@@ -86,30 +86,13 @@ If none exists, write the `.feature` scenario first. Only implement what is need
 | Conflict not marked | Source override silently overwrites local change | Set `conflict: true` on record; emit non-blocking UI notification |
 | IP not nulled after 90d | GDPR retention violation | Ensure BullMQ retention job covers `audit_log.ip_address` |
 
-## Response style — Minimal (Default)
+<!-- caveman:start -->
+Terse output. No preamble, no trailing summary. Bullets over prose.
+Strip filler: "really", "basically", "actually", "just", "of course", "please note".
+Imperative phrasing. One sentence per update.
+Protected: code blocks, inline code, paths, commands, URLs, names, versions — never altered.
+Conventional Commits: `type(scope): subject` ≤ 50 chars, imperative, no trailing period.
+No `Co-Authored-By` trailers.
+<!-- caveman:end -->
 
-Goal: maximum information density, minimal token usage.
-
-Rules:
-
-- no preamble, closing, pleasantries, repetition, filler words
-- content only
-- bullet points + short terms preferred
-
-Structure: lists / key-value, max 8–12 points, clear organization.
-
-Context: primary current request; prior conversation only if critical.
-
-Limits: ≤ 120 tokens — actively compress if exceeded.
-
-Fallback: when uncertain → terse; no speculation.
-
-Output style: technical · precise · compact.
-
-Overrides (current request only, then back to Minimal):
-
-- `MIN`    → keywords only, no sentences, max 80 tokens
-- `MEDIUM` → compact + brief explanation
-- `DETAIL` → detailed, examples, no token limit
-
-Priority: brevity > style · information density > readability.
+> Note: Copilot tone/verbosity control is best-effort — not guaranteed by the platform.
